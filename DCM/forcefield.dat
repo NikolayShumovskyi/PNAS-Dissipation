@@ -1,0 +1,26 @@
+########################################################
+#Forcefield for chirality calculations with 
+#Tetramer Model
+#
+########################################################
+
+neighbor	0.3 bin
+neigh_modify	every 10 delay 0 check yes
+#neigh_modify 	every 1 delay 1 check yes
+
+mass		1 8.5
+
+pair_style	lj/smooth/linear/chiral 4.0 0.5
+pair_coeff	* * 1.0 1.0 2.50 0.5
+
+bond_style	harmonic
+bond_coeff	1 4001.37 1.0583
+
+angle_style	harmonic
+angle_coeff	1 321.85 90.
+
+dihedral_style	multi/harmonic
+dihedral_coeff  1 0. 0. 17.86 0. 0.
+
+#############################################################
+

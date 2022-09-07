@@ -1,0 +1,68 @@
+#PROF= -pg
+PROF= 
+#DEBUG = -g
+DEBUG =      
+#OPTMAIN  = -O3
+#OPTMAIN  = -O2
+#OPTMAIN  = -O
+OPTMAIN  =  -O4
+#OPTMAIN  = 
+#OPT      = -O3 -fno-caller-saves
+#OPT      = -O2
+#OPT      = -O
+OPT      = -O4
+#OPT =  
+
+dmd.out: bcp-stress.o make_system.o search.o controls.o cluster.o corr_func.o movie.o bonds.o rms.o fs_output-stress.o schedule.o mutate.o nucleation.o q6.o rng.o
+	cc -o dmd.out bcp-stress.o make_system.o search.o controls.o cluster.o movie.o bonds.o rms.o corr_func.o fs_output-stress.o schedule.o mutate.o nucleation.o q6.o rng.o -lm ${PROF}
+
+bcp-stress.o: bcp-stress.c bcp.h make_system.h controls.h cluster.h movie.h search.h bonds.h rms.h corr_func.h fs_output.h schedule.h nucleation.h q6.h rng.h
+	cc -c ${DEBUG} ${OPTMAIN} bcp-stress.c ${PROF}
+
+make_system.o: make_system.c bcp.h make_system.h controls.h cluster.h search.h movie.h bonds.h rms.h corr_func.h rng.h 
+	cc -c ${DEBUG} ${OPT}  make_system.c ${PROF}
+
+search.o: bcp.h controls.h search.h search.c 
+	cc -c ${DEBUG} ${OPT}  search.c ${PROF}
+
+controls.o: controls.c bcp.h controls.h cluster.h fs_output.h
+	cc -c ${DEBUG} ${OPT}  controls.c ${PROF}
+
+cluster.o: cluster.c bcp.h bonds.h cluster.h controls.h rms.h
+	cc -c ${DEBUG} ${OPT}  cluster.c ${PROF}
+
+movie.o: movie.c bcp.h controls.h rms.h bonds.h make_system.h
+	cc -c ${DEBUG} ${OPT} movie.c ${PROF}
+
+bonds.o: bonds.c bonds.h 
+	cc -c ${DEBUG} ${OPT} bonds.c ${PROF}
+
+rms.o: rms.c rms.h bcp.h controls.h search.h 
+	cc -c ${DEBUG} ${OPT} rms.c ${PROF}
+
+corr_func.o: corr_func.c bcp.h corr_func.h controls.h bonds.h 
+	cc -c ${DEBUG} ${OPT} corr_func.c ${PROF}
+
+fs_output-stress.o: fs_output-stress.c fs_output.h bcp.h controls.h make_system.h
+	cc -c ${DEBUG} ${OPT} fs_output-stress.c ${PROF}
+
+mutate.o: mutate.c bcp.h mutate.h
+	cc -c ${DEBUG} ${OPT} mutate.c ${PROF}
+
+nucleation.o: nucleation.c bcp.h nucleation.h search.h  
+	cc -c ${DEBUG} ${OPT} nucleation.c ${PROF}
+
+schedule.o: schedule.c schedule.h bcp.h controls.h mutate.h nucleation.h q6.h
+	cc -c ${DEBUG} ${OPT}  schedule.c ${PROF}
+
+q6.o: q6.c bcp.h q6.h search.h  
+	cc -c ${DEBUG} ${OPT} q6.c ${PROF}
+
+rng.o: rng.c rng.h  
+	cc -c ${DEBUG} ${OPT} rng.c ${PROF}
+
+clean:
+	rm *.o dmd.out bcp_story*
+
+
+
